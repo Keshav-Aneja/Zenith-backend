@@ -1,4 +1,16 @@
 import mongoose, { Schema } from "mongoose";
+const tagSchema = new Schema({
+  label: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  color: {
+    type: String,
+    required: true,
+  },
+});
+
 const subTodoSchema = new Schema(
   {
     title: {
@@ -25,12 +37,7 @@ const todoSchema = new Schema(
       type: String,
       trim: true,
     },
-    tags: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Tag",
-      },
-    ],
+    tags: [tagSchema],
     status: {
       type: String,
       enum: ["PENDING", "COMPLETED", "ONGOING"],
@@ -42,6 +49,21 @@ const todoSchema = new Schema(
       default: "Personal",
     },
     subtodo: [subTodoSchema],
+    author: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    projectTodo: {
+      type: Boolean,
+      default: false,
+    },
+    SubAuthors: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );
